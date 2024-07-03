@@ -1,0 +1,281 @@
+* {
+  box-sizing: border-box;
+}
+
+/* General body styling */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+  font-size: 18px;
+}
+
+/* Vertical navbar */
+.navbar {
+  background-color: #fff;
+  padding: 10px 20px;
+  border-right: 1px solid #ddd;
+  width: 200px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  z-index: 1000;
+}
+
+/* Brand name in the navbar */
+.navbar-brand {
+  font-size: 1.5em;
+  font-weight: bold;
+  text-decoration: none;
+  color: #000;
+  margin-bottom: 20px;
+}
+
+/* Container within the navbar */
+.container-fluid {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+/* Remove default margin and padding for the navbar menu */
+.navbar-nav {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Each navigation item */
+.nav-item {
+  position: relative;
+  width: 100%;
+}
+
+/* Each navigation link */
+.nav-link {
+  text-decoration: none;
+  color: #000;
+  padding: 10px 20px;
+  display: block;
+  transition: background-color 0.3s;
+  width: 100%;
+  font-size: 1.1em;
+}
+
+/* Hover effect for navigation links */
+.nav-link:hover {
+  background-color: #e2e6ea;
+}
+
+/* Initial hidden state of dropdown menu */
+.dropdown-menu {
+  display: none;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 0;
+  left: 100%;
+  width: 200px;
+}
+
+/* Show dropdown menu on hover */
+.nav-item.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+/* Each dropdown item */
+.dropdown-item {
+  padding: 10px 20px;
+  text-decoration: none;
+  color: #000;
+  display: block;
+  transition: background-color 0.3s;
+  font-size: 1em;
+}
+
+/* Hover effect for dropdown items */
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+}
+
+/* Container adjustments to avoid overlap with navbar */
+.container {
+  margin-left: 220px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  margin-bottom: 60px;
+  width: calc(100% - 220px);
+}
+
+/* Create container styling */
+.create-container {
+  background-color: white;
+  padding: 100px;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 1000px;
+  text-align: left;
+  border: 1px solid #f1f1f1;
+  box-sizing: border-box;
+  margin: 0 auto; 
+  font-size: 1em;
+}
+
+/* Reminder item */
+.reminder-item {
+  margin-bottom: 60px;
+}
+
+/* Login container styling */
+.login-container {
+  background-color: white;
+  padding: 40px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 800px;
+  text-align: center;
+  margin-top: 50px;
+  border: 3px solid #f1f1f1;
+  box-sizing: border-box;
+}
+
+/* Heading */
+h1 {
+  margin-bottom: 20px;
+  font-weight: bold;
+  font-size: 2em;
+}
+
+/* Label*/
+label {
+  display: block;
+  margin: 10px 0 5px;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+/* information display */
+.info-display {
+  display: block;
+  margin: 10px 0 5px;
+  font-size: 1.1em;
+}
+
+.info-display-bold {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+/* Full-width */
+input[type=text],
+input[type=password],
+input[type=email],
+input[type=date],
+input[type=time] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  font-size: 1em;
+  line-height: 1.5;
+  font-family: Arial, sans-serif;
+}
+
+/* Placeholder  */
+input::placeholder {
+  color: #999;
+  font-size: 1em;
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+}
+
+/* Button */
+button {
+  background-color: #04AA6D;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  font-size: 1.1em;
+}
+
+/* Hover effect for buttons */
+button:hover {
+  opacity: 0.8;
+}
+
+/* Alert box */
+.alert {
+  margin-bottom: 15px;
+  padding: 10px;
+  border-radius: 4px;
+  text-align: left;
+  font-size: 1em;
+}
+
+/* Success alert */
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+/* Danger alert */
+.alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Paragraph */
+p {
+  margin-top: 20px;
+  font-size: 1em;
+}
+
+/* Link */
+a {
+  color: #007BFF;
+  text-decoration: none;
+  font-size: 1em;
+}
+
+/* Hover effect for links */
+a:hover {
+  text-decoration: underline;
+}
+
+/* Footer */
+.footer {
+  background-color: #f4f4f4;
+  padding: 20px 0;
+  text-align: center;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  font-size: 1em;
+}
