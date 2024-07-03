@@ -44,6 +44,10 @@ class User
             $_SESSION['auth'] = 1;
             $_SESSION['username'] = ucwords($username);
             $_SESSION['userid'] = $rows['userid'];
+            
+            //update to set the user role for admin
+            $_SESSION['role'] = $rows['role'];
+            
             unset($_SESSION['failedAuth']);
             unset($_SESSION['lockout_time']);
             $this->log_attempt($username, 'good');
@@ -71,7 +75,7 @@ class User
         }
     }
 
-    public function create_user($username, $email, $password)
+    public function create_user($username, $email, $password, $role = 'user')
     {
         $db = db_connect();
 
@@ -96,6 +100,7 @@ class User
         $statement->bindParam(':username', $username);
         $statement->bindParam(':email', $email);
         $statement->bindParam(':password', $hashed_password);
+        $statement->bindParam(':role', $role);
         $statement->execute();
 
         // Success message and redirect
