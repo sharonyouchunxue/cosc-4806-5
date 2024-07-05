@@ -151,16 +151,18 @@ class User
     //Get user with most reminders
     public function getUserWithMostReminders() {
         $db = db_connect();
-        $stmt = $db->prepare("SELECT users.username, COUNT(reminders.id) as reminder_count 
-                              FROM users 
-                              JOIN reminders ON users.id = reminders.user_id 
-                              WHERE reminders.deleted = FALSE
-                              GROUP BY users.id 
-                              ORDER BY reminder_count DESC 
-                              LIMIT 1");
-            $stmt->execute();
-            return $stmt->fetch(PDO::FETCH_ASSOC);
-        }
+        $stmt = $db->prepare("
+            SELECT users.username, COUNT(reminders.id) as reminder_count 
+            FROM users 
+            JOIN reminders ON users.id = reminders.user_id 
+            WHERE reminders.deleted = FALSE
+            GROUP BY users.id 
+            ORDER BY reminder_count DESC 
+            LIMIT 1
+        ");
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 
 }
 ?>
