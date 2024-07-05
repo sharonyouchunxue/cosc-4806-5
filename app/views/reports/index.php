@@ -26,5 +26,12 @@
     <?php else: ?>
         <p>No reminders found.</p>
     <?php endif; ?>
+
+    <h2>Total Logins by Username</h2>
+    <ul>
+        <?php foreach ($data['totalLogins'] as $login): ?>
+            <li><?php echo htmlspecialchars($login['username']) . ": " . $login['total_logins'] . " logins"; ?></li>
+        <?php endforeach; ?>
+    </ul>
 </body>
 </html>
