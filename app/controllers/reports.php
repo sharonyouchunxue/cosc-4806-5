@@ -1,29 +1,33 @@
 <?php
-session_start();
-
-if (!isset($_SESSION['auth'])) {
-    header('Location: /login');
-    exit();
-}
 
 require_once __DIR__ . '/../models/Reminder.php';
+require_once __DIR__ . '/../models/User.php';
 
-class ReportsController
+class Reports extends Controller
 {
+    private $reminderModel;
+    private $userModel;
+
+    public function __construct() {
+        $this->reminderModel = new Reminder();
+        $this->userModel = new User();
+    }
+
     public function index()
     {
-        $reminderModel = new Reminder();
-        //$userModel = new User();
-        
-        $reminders = $reminderModel->get_all_reminders();
-        //$mostRemindersUser = $userModel->getUserWithMostReminders();
-        
+        $reminders = $this->reminderModel->get_all_reminders();
+        $mostRemindersUser = $this->userModel->getUserWithMostReminders();
 
-        include __DIR__ . '/../views/reports/index.php';
+        // Debugging: log the results
+        error_log('Reminders: ' . print_r($reminders, true));
+        error_log('User with most reminders: ' . print_r($mostRemindersUser, true));
+
+        $data = [
+            'reminders' => $reminders,
+            'mostRemindersUser' => $mostRemindersUser
+        ];
+
+        $this->view('reports/index', $data);
     }
 }
-
-// Create an instance of the controller and call the index method
-$controller = new ReportsController();
-$controller->index();
 ?>
