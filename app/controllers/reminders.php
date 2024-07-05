@@ -4,44 +4,51 @@ require_once 'app/models/Reminder.php';
 
 class Reminders extends Controller {
 
-    //Function to display all reminder list.
+    // Constructor to start session
+    public function __construct() {
+        session_start(); // Start session once in the constructor
+    }
+
+    // Function to display all reminder list.
     public function index() {
-        //reminder model instance creation
+        // Reminder model instance creation
         $reminder = $this->model('Reminder');
 
-        //get all reminders from the model
+        // Get all reminders from the model
         $list_of_reminders = $reminder->get_all_reminders();
 
-        //pass the reminder data to the view
+        // Pass the reminder data to the view
         $this->view('reminders/index', ['reminders' => $list_of_reminders]);
     }
 
-    //Function to create a new reminder
+    // Function to create a new reminder
     public function create() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            session_start(); 
-            $user_id = $_SESSION['user_id']; //get user id
-            $subject = $_POST['subject']; 
-            $date = $_POST['date']; //calendar date
-            $time = $_POST['time']; //calandar time
-            $reminder_time = $date . ' ' . $time; //combine calendar
-            
-            $reminder = $this->model('Reminder');
-            $reminder->create_reminder($user_id, $subject, $reminder_time);
+            if (isset($_SESSION['userid'])) { // Use correct session variable
+                $user_id = $_SESSION['userid']; // Get user id
+                $subject = $_POST['subject']; 
+                $date = $_POST['date']; // Calendar date
+                $time = $_POST['time']; // Calendar time
+                $reminder_time = $date . ' ' . $time; // Combine calendar date and time
 
-            // Set success message
-            $_SESSION['success_message'] = "Reminder created successfully.";
+                $reminder = $this->model('Reminder');
+                $reminder->create_reminder($user_id, $subject, $reminder_time);
 
-            header('Location: /reminders/displayMessage');
-            
+                // Set success message
+                $_SESSION['success_message'] = "Reminder created successfully.";
+
+                header('Location: /reminders/displayMessage');
+            } else {
+                // Handle error if user ID is not in session
+                echo "User not logged in.";
+            }
         } else {
             $this->view('reminders/create/index');
         }
     }
 
-    //helper function to display the success message and redirect to the reminders list
+    // Helper function to display the success message and redirect to the reminders list
     public function displayMessage() {
-        session_start();
         if (isset($_SESSION['success_message'])) {
             $message = $_SESSION['success_message'];
             unset($_SESSION['success_message']);
@@ -51,10 +58,9 @@ class Reminders extends Controller {
         }
     }
 
-    //function to update an existing reminder
+    // Function to update an existing reminder
     public function update($id) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            session_start();
             $subject = isset($_POST['subject']) ? $_POST['subject'] : null;
             $date = isset($_POST['date']) ? $_POST['date'] : null;
             $time = isset($_POST['time']) ? $_POST['time'] : null;
@@ -98,7 +104,7 @@ class Reminders extends Controller {
         }
     }
 
-    //function to delete a reminder
+    // Function to delete a reminder
     public function delete($id) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $reminder = $this->model('Reminder');
