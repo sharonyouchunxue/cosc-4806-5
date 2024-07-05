@@ -20,19 +20,21 @@ class Reports extends Controller
 
         // Fetch reminders for the user with most reminders
         $userReminders = [];
-        if ($mostRemindersUser) {
+        if ($mostRemindersUser && isset($mostRemindersUser['id'])) {
             $userReminders = $this->userModel->getRemindersByUserId($mostRemindersUser['id']);
         }
+
+        // Fetch total logins by username
+        $totalLogins = $this->userModel->getTotalLoginsByUsername();
 
         $data = [
             'reminders' => $reminders,
             'mostRemindersUser' => $mostRemindersUser,
-            'userReminders' => $userReminders
+            'userReminders' => $userReminders,
+            'totalLogins' => $totalLogins
         ];
 
         $this->view('reports/index', $data);
     }
-
-
 }
 ?>
