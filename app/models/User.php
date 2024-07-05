@@ -139,14 +139,15 @@ class User
         return true;
     }
 
-    private function log_attempt($username, $attempt)
-    {
+    private function log_attempt($username, $attempt){
         $db = db_connect();
         $statement = $db->prepare("INSERT INTO log (username, attempt, attempt_time) VALUES (:username, :attempt, NOW())");
         $statement->bindParam(':username', $username);
         $statement->bindParam(':attempt', $attempt);
         $statement->execute();
     }
+
+    
 
     //Get user with most reminders
     public function getUserWithMostReminders() {
@@ -174,6 +175,13 @@ class User
         return $reminders;
     }
 
+    //To count total login by username
+    public function getTotalLoginsByUsername() {
+        $db = db_connect();
+        $stmt = $db->prepare("SELECT username, COUNT(*) as total_logins FROM log WHERE attempt = 'good' GROUP BY username");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 }
 ?>
