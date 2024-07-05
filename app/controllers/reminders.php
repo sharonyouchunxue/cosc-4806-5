@@ -9,13 +9,22 @@ class Reminders extends Controller {
         session_start(); // Start session once in the constructor
     }
 
-    // Function to display all reminder list.
+    // Function to display reminders for the logged-in user
     public function index() {
+        // Check if the user is logged in
+        if (!isset($_SESSION['userid'])) {
+            header('Location: /login');
+            exit();
+        }
+
+        // Get the logged-in user's ID
+        $user_id = $_SESSION['userid'];
+
         // Reminder model instance creation
         $reminder = $this->model('Reminder');
 
-        // Get all reminders from the model
-        $list_of_reminders = $reminder->get_all_reminders();
+        // Get reminders for the logged-in user from the model
+        $list_of_reminders = $reminder->get_reminders_by_user($user_id);
 
         // Pass the reminder data to the view
         $this->view('reminders/index', ['reminders' => $list_of_reminders]);

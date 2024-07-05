@@ -4,7 +4,6 @@ class Reminder {
 
     public function __construct() {
     }
-    
 
     // Function to read and view a single reminder by id
     public function get_reminder($id) {
@@ -23,6 +22,14 @@ class Reminder {
         return $rows;
     }
 
+    // Function to read and view all reminders for a specific user
+    public function get_reminders_by_user($user_id) {
+        $db = db_connect();
+        $statement = $db->prepare("SELECT * FROM reminders WHERE user_id = :user_id AND deleted = FALSE;");
+        $statement->execute([':user_id' => $user_id]);
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     // Function to allow user to create a reminder after login
     public function create_reminder($user_id, $subject, $reminder_time) {
         $db = db_connect();
@@ -30,7 +37,6 @@ class Reminder {
         $statement->execute([':user_id' => $user_id, ':subject' => $subject, ':reminder_time' => $reminder_time]);
         return $db->lastInsertId();
     }
-
 
     // Function to allow user to update a reminder
     public function update_reminder($reminder_id, $update_data) {
