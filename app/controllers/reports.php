@@ -9,6 +9,20 @@ class Reports extends Controller
     private $userModel;
 
     public function __construct() {
+        session_start();
+
+        // Check if user is logged in
+        if (!isset($_SESSION['auth']) || !$_SESSION['auth']) {
+            header('Location: /login');
+            exit();
+        }
+
+        // Check if user is an admin
+        if ($_SESSION['role'] !== 'admin') {
+            header('Location: /home');
+            exit();
+        }
+
         $this->reminderModel = new Reminder();
         $this->userModel = new User();
     }

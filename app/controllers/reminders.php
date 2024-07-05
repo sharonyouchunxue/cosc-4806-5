@@ -7,16 +7,16 @@ class Reminders extends Controller {
     // Constructor to start session
     public function __construct() {
         session_start(); // Start session once in the constructor
-    }
 
-    // Function to display reminders for the logged-in user
-    public function index() {
-        // Check if the user is logged in
+        // Check if user is logged in
         if (!isset($_SESSION['userid'])) {
             header('Location: /login');
             exit();
         }
+    }
 
+    // Function to display reminders for the logged-in user
+    public function index() {
         // Get the logged-in user's ID
         $user_id = $_SESSION['userid'];
 
@@ -33,24 +33,19 @@ class Reminders extends Controller {
     // Function to create a new reminder
     public function create() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (isset($_SESSION['userid'])) { // Use correct session variable
-                $user_id = $_SESSION['userid']; // Get user id
-                $subject = $_POST['subject']; 
-                $date = $_POST['date']; // Calendar date
-                $time = $_POST['time']; // Calendar time
-                $reminder_time = $date . ' ' . $time; // Combine calendar date and time
+            $user_id = $_SESSION['userid']; // Get user id
+            $subject = $_POST['subject'];
+            $date = $_POST['date']; // Calendar date
+            $time = $_POST['time']; // Calendar time
+            $reminder_time = $date . ' ' . $time; // Combine calendar date and time
 
-                $reminder = $this->model('Reminder');
-                $reminder->create_reminder($user_id, $subject, $reminder_time);
+            $reminder = $this->model('Reminder');
+            $reminder->create_reminder($user_id, $subject, $reminder_time);
 
-                // Set success message
-                $_SESSION['success_message'] = "Reminder created successfully.";
+            // Set success message
+            $_SESSION['success_message'] = "Reminder created successfully.";
 
-                header('Location: /reminders/displayMessage');
-            } else {
-                // Handle error if user ID is not in session
-                echo "User not logged in.";
-            }
+            header('Location: /reminders/displayMessage');
         } else {
             $this->view('reminders/create/index');
         }
@@ -70,6 +65,8 @@ class Reminders extends Controller {
     // Function to update an existing reminder
     public function update($id) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $user_id = $_SESSION['userid'];
+
             $subject = isset($_POST['subject']) ? $_POST['subject'] : null;
             $date = isset($_POST['date']) ? $_POST['date'] : null;
             $time = isset($_POST['time']) ? $_POST['time'] : null;
@@ -93,6 +90,14 @@ class Reminders extends Controller {
 
             if (!empty($update_data)) {
                 $reminder = $this->model('Reminder');
+
+                // Ensure the reminder belongs to the logged-in user before updating
+                $reminder_info = $reminder->get_reminder($id);
+                if ($reminder_info['user_id'] != $user_id) {
+                    header('Location: /reminders');
+                    exit();
+                }
+
                 $reminder->update_reminder($id, $update_data);
 
                 // Set success message
@@ -108,7 +113,14 @@ class Reminders extends Controller {
             header('Location: /reminders');
         } else {
             $reminder = $this->model('Reminder');
+
+            // Ensure the reminder belongs to the logged-in user before fetching
             $reminder_info = $reminder->get_reminder($id);
+            if ($reminder_info['user_id'] != $_SESSION['userid']) {
+                header('Location: /reminders');
+                exit();
+            }
+
             $this->view('reminders/update', ['reminder' => $reminder_info]);
         }
     }
@@ -117,7 +129,15 @@ class Reminders extends Controller {
     public function delete($id) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $reminder = $this->model('Reminder');
-            $reminder->delete_reminder($id);  
+
+            // Ensure the reminder belongs to the logged-in user before deleting
+            $reminder_info = $reminder->get_reminder($id);
+            if ($reminder_info['user_id'] != $_SESSION['userid']) {
+                header('Location: /reminders');
+                exit();
+            }
+
+            $reminder->delete_reminder($id);
             header('Location: /reminders');
         }
     }
