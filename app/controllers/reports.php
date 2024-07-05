@@ -18,16 +18,21 @@ class Reports extends Controller
         $reminders = $this->reminderModel->get_all_reminders();
         $mostRemindersUser = $this->userModel->getUserWithMostReminders();
 
-        // Debugging: log the results
-        error_log('Reminders: ' . print_r($reminders, true));
-        error_log('User with most reminders: ' . print_r($mostRemindersUser, true));
+        // Fetch reminders for the user with most reminders
+        $userReminders = [];
+        if ($mostRemindersUser) {
+            $userReminders = $this->userModel->getRemindersByUserId($mostRemindersUser['id']);
+        }
 
         $data = [
             'reminders' => $reminders,
-            'mostRemindersUser' => $mostRemindersUser
+            'mostRemindersUser' => $mostRemindersUser,
+            'userReminders' => $userReminders
         ];
 
         $this->view('reports/index', $data);
     }
+
+
 }
 ?>
