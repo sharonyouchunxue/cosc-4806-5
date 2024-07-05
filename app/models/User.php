@@ -20,7 +20,7 @@ class User
         return $rows;
     }
 
-    public function authenticate($username, $password)
+    public function authenticate($username, $password, $isAdmin = false)
     {
         $username = strtolower($username);
         $db = db_connect();
@@ -41,18 +41,21 @@ class User
         // Check if password matches
         if ($rows && password_verify($password, $rows['password'])) {
             // Successful login
+            if ($isAdmin && $rows['role'] !== 'admin') {
+                $_SESSION['error'] = "You do not have admin privileges.";
+                header('Location: /login');
+                exit();
+            }
+
             $_SESSION['auth'] = 1;
             $_SESSION['username'] = ucwords($username);
-            $_SESSION['userid'] = $rows['userid'];
-            
-            //update to set the user role for admin
+            $_SESSION['userid'] = $rows['id'];
             $_SESSION['role'] = $rows['role'];
-            
+
             unset($_SESSION['failedAuth']);
             unset($_SESSION['lockout_time']);
             $this->log_attempt($username, 'good');
-            header('Location: /home');
-            exit();
+            return $rows;
         } else {
             // Failed login
             $this->log_attempt($username, 'bad');
@@ -96,7 +99,7 @@ class User
 
         // Create new user
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $statement = $db->prepare("INSERT INTO users (username, email, password) VALUES (:username, :email, :password)");
+        $statement = $db->prepare("INSERT INTO users (username, email, password, role) VALUES (:username, :email, :password, :role)");
         $statement->bindParam(':username', $username);
         $statement->bindParam(':email', $email);
         $statement->bindParam(':password', $hashed_password);
@@ -109,7 +112,6 @@ class User
         exit();
     }
 
-    // Function to check if username exists by retrieving the username from the database
     public function user_exists($username)
     {
         $db = db_connect();
@@ -119,7 +121,6 @@ class User
         return $statement->fetchColumn() > 0;
     }
 
-    //Function to set rules to validate user password creation
     public function validate_password($password)
     {
         if (strlen($password) < 8) {
@@ -138,7 +139,6 @@ class User
         return true;
     }
 
-    // Function to log failed login attempts
     private function log_attempt($username, $attempt)
     {
         $db = db_connect();
@@ -146,6 +146,26 @@ class User
         $statement->bindParam(':username', $username);
         $statement->bindParam(':attempt', $attempt);
         $statement->execute();
+    }
+
+    public static function getUserWithMostReminders() {
+        $db = db_connect();
+        $stmt = $db->query("SELECT username, COUNT(*) as reminder_count 
+                            FROM reminders 
+                            JOIN users ON reminders.user_id = users.id 
+                            GROUP BY user_id 
+                            ORDER BY reminder_count DESC 
+                            LIMIT 1");
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public static function getLoginCounts() {
+        $db = db_connect();
+        $stmt = $db->query("SELECT username, COUNT(*) as login_count 
+                            FROM log 
+                            JOIN users ON log.user_id = users.id 
+                            GROUP BY user_id");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
 ?>
