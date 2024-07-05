@@ -42,7 +42,7 @@
         <?php endforeach; ?>
     </ul>
 
-    <!-- Pie Chart for visualization -->
+    <!-- Pie Chart for login counts by Users -->
     <h2>Login Attempts Pie Chart</h2>
     <canvas id="loginPieChart"></canvas>
     <script>
