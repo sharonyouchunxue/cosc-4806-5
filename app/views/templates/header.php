@@ -4,18 +4,17 @@ if (!isset($_SESSION['auth'])) {
     header('Location: /login');
     exit();
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="/app/views/css/styles.css">
-    <link rel="icon" href="/favicon.png">
-    <title>COSC 4806</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
+    <title>COSC 4806</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="icon" href="/favicon.png">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -47,7 +46,6 @@ if (!isset($_SESSION['auth'])) {
                             Admin
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="adminDropdown">
-                            <li><a class="dropdown-item" href="/admin">Admin Dashboard</a></li>
                             <li><a class="dropdown-item" href="/reports">Reports</a></li>
                         </ul>
                     </li>
@@ -59,5 +57,8 @@ if (!isset($_SESSION['auth'])) {
         </div>
     </div>
 </nav>
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
