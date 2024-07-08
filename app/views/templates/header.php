@@ -17,7 +17,7 @@ if (!isset($_SESSION['auth'])) {
     <link rel="icon" href="/favicon.png">
 </head>
 <body>
-<nav class="navbar navbar-dark bg-success fixed-top">
+  <nav class="navbar navbar-dark bg-success fixed-top">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">COSC 4806</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
