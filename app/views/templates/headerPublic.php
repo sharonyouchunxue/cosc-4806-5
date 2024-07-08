@@ -41,10 +41,7 @@ if (isset($_SESSION['auth']) == 1) {
     </div>
 </nav>
 
-<!-- Footer content here -->
-
-<!-- Bootstrap JS Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gybW4Pi4pGV5RrZZmdTDaU5eSljwR5J5xKA8A5B5LRPBp47rUm" crossorigin="anonymous"></script>
+<!-- Bootstrap JS Bundle -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-Qrnbw4ANBMQ/4WyJ9xxW4VKi7R1frEYTd2PB6KaGmkLIbx5CkHx7v6QEIMz9q4xk" crossorigin="anonymous"></script>
 </body>
 </html>
