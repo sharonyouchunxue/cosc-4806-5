@@ -8,12 +8,32 @@
         </div>
     </div>
 
-    <!-- Success Message display -->
-    <?php if (isset($data['message'])): ?>
-        <div class="alert alert-success"><?php echo htmlspecialchars($data['message']); ?></div>
-    <?php endif; ?>
+    <!-- Toast container -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="messageToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Notification</strong>
+                <small class="text-muted">just now</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                <?php if (isset($data['message'])): ?>
+                    <?php echo htmlspecialchars($data['message']); ?>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
 
     <script>
+        // Show toast if there is a message
+        <?php if (isset($data['message'])): ?>
+        document.addEventListener('DOMContentLoaded', function () {
+            var toastEl = document.getElementById('messageToast');
+            var toast = new bootstrap.Toast(toastEl);
+            toast.show();
+        });
+        <?php endif; ?>
+
         // Redirect to the reminders list after 3 seconds
         setTimeout(function() {
             window.location.href = '/reminders';
