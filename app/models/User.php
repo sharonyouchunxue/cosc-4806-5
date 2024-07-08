@@ -147,8 +147,6 @@ class User
         $statement->execute();
     }
 
-    
-
     //Get user with most reminders
     public function getUserWithMostReminders() {
         $db = db_connect();

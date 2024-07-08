@@ -38,12 +38,13 @@ class Login extends Controller
 						$_SESSION['userid'] = $user['id'];
 						$_SESSION['role'] = $user['role'];
 
-						// Redirect based on role
+						// Set success message for admin login
 						if ($user['role'] === 'admin') {
-								header('Location: /admin');
-						} else {
-								header('Location: /home');
+								$_SESSION['success'] = 'Admin login successful!';
 						}
+
+						// Redirect to the home page
+						header('Location: /home');
 						exit();
 				} else {
 						// Handle login failure
