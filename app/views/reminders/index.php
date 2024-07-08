@@ -24,7 +24,7 @@
         <div class="col-lg-8">
             <?php $counter = 1; ?>
             <?php foreach ($data['reminders'] as $reminder): ?>
-                <div class="card mb-3">
+                <div class="card mb-3 shadow-sm">
                     <div class="card-body">
                         <h5 class="card-title"><?php echo $counter . '. ' . htmlspecialchars($reminder['subject']); ?></h5>
                         <p class="card-text">Created on: <?php echo htmlspecialchars($reminder['create_at']); ?></p>

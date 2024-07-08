@@ -3,6 +3,8 @@
 <head>
     <title>Reports</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!--
+    <link rel="stylesheet" href="app/views/css/styles.css">-->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         #loginPieChart {
