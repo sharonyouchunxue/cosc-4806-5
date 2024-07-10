@@ -67,4 +67,5 @@ class Reminder {
         $this->update_reminder($reminder_id, ['deleted' => true]);
     }
 }
+
 ?>

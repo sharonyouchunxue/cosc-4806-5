@@ -27,9 +27,12 @@ class Reminders extends Controller {
         $list_of_reminders = $reminder->get_reminders_by_user($user_id);
 
         // Pass the reminder data to the view
-        $this->view('reminders/index', ['reminders' => $list_of_reminders]);
+        $this->view('reminders/index', [
+            'reminders' => $list_of_reminders,
+        ]);
     }
 
+    
     // Function to create a new reminder
     public function create() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -140,6 +143,13 @@ class Reminders extends Controller {
             $reminder->delete_reminder($id);
             header('Location: /reminders');
         }
+    }
+
+    // Function to display all users with their reminders
+    public function allUsersReminders() {
+        $reminder = $this->model('Reminder');
+        $all_users_reminders = $reminder->get_all_users_with_reminders();
+        $this->view('reminders/allUsersReminders', ['allUsersReminders' => $all_users_reminders]);
     }
 }
 ?>

@@ -106,11 +106,6 @@
                                         <?php endforeach; ?>
                                     </tbody>
                                 </table>
-                                <!-- Bar Chart -->
-                                <div class="mt-4">
-                                    <h3>Reminders Bar Chart</h3>
-                                    <canvas id="mostRemindersChart" width="800" height="400"></canvas>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -214,49 +209,11 @@
             });
         }
 
-        function initializeBarChart() {
-            const ctx = document.getElementById('mostRemindersChart').getContext('2d');
-            const mostRemindersChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: <?php echo json_encode(array_column($data['userReminders'], 'subject')); ?>,
-                    datasets: [{
-                        label: 'Reminders',
-                        data: <?php echo json_encode(array_map(function($reminder) {
-                            return 1;
-                        }, $data['userReminders'])); ?>,
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        x: {
-                            stacked: true,
-                        },
-                        y: {
-                            stacked: true,
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-        }
-
         $('a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
             if (e.target.id === 'login-pie-chart-tab') {
                 if (!$('#loginPieChart').hasClass('initialized')) {
                     initializePieChart();
                     $('#loginPieChart').addClass('initialized');
-                }
-            }
-            if (e.target.id === 'most-reminders-tab') {
-                if (!$('#mostRemindersChart').hasClass('initialized')) {
-                    initializeBarChart();
-                    $('#mostRemindersChart').addClass('initialized');
                 }
             }
         });

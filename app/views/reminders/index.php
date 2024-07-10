@@ -8,7 +8,7 @@
         </div>
     </div>
 
-    <!-- Display success message for reminder creation or update -->
+    <!-- Display success message for reminder creation and update -->
     <?php
     session_start();
     if (isset($_SESSION['success_message'])) {
